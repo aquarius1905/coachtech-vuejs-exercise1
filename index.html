@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <ul class="tab_menu">
+      <li
+        v-for="tab in tabs"
+        :key="tab.key"
+        :class="['tab-menu-item', { active: activeTab === tab.key }]"
+        @click="activeTab = tab.key">
+        {{ tab.name }}
+      </li>
+    </ul>
+    <component :is="activeTabComponent" class="active-tab-component"></component>
+  </div>
+  <script>
+    Vue.component("tab1", {
+      template: "<div>コンテンツ1</div>"
+    });
+
+    Vue.component("tab2", {
+      template: "<div>コンテンツ2</div>"
+    });
+    Vue.component("tab3", {
+      template: "<div>コンテンツ3</div>"
+    });
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          activeTab: 'tab1',
+          tabs: [
+            {
+              key: 'tab1',
+              name: 'タブ1'
+            },
+            {
+              key: 'tab2',
+              name: 'タブ2'
+            },
+            {
+              key: 'tab3',
+              name: 'タブ3'
+            },
+          ]
+        }
+      },
+      computed: {
+        activeTabComponent () {
+          return this.activeTab;
+        }
+      }
+    });
+  </script>
+<style>
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  #tab {
+    width: 500px;
+  }
+  .tab_menu {
+    display: flex;
+  }
+  .tab-menu-item {
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    list-style: none;
+    width: 100px;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+  }
+  .tab-menu-item:not(:first-child) {
+    border-left: none;
+  }
+  .active {
+    background: #000;
+    color: white;
+  }
+  .active-tab-component {
+    display: block;
+    font-size: 40px;
+    height: 200px;
+    border: 1px solid #ccc;
+  }
+</style>
+</body>
+</html>
